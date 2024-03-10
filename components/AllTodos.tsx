@@ -1,6 +1,8 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import TodoItem from './todoItem';
+import { Suspense } from 'react';
+import Loader from './Loader';
 
 interface AllTodosProps {
   todos: Itodo[];

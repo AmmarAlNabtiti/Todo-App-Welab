@@ -1,10 +1,5 @@
-'use client';
 const Loader = () => {
-  return (
-    <h1 style={{ fontSize: '40px', textAlign: 'center' }}>
-      يتم الان تحميل المهم
-    </h1>
-  );
+  return <h1 className='loader'>يتم الان تحميل المهام</h1>;
 };
 
 export default Loader;

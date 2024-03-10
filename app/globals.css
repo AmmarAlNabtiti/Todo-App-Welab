@@ -66,3 +66,13 @@ input {
 .not-found-page a:hover {
   background-color: blue;
 }
+
+/* Loader */
+
+.loader {
+  font-size: 40px;
+  background: -webkit-linear-gradient(#eee, blue);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
