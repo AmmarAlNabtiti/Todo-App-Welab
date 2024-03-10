@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Dialog,
   DialogTitle,
@@ -13,8 +14,8 @@ interface EditDialogProps {
   onClose: () => void;
   editedTask: string;
   setEditedTask: React.Dispatch<React.SetStateAction<string>>;
-  editedDetails: (string | undefined) ;
-  setEditedDetails: React.Dispatch<React.SetStateAction< (string | undefined)>>;
+  editedDetails: string | undefined;
+  setEditedDetails: React.Dispatch<React.SetStateAction<string | undefined>>;
   onConfirm: () => void;
 }
 
@@ -27,12 +28,14 @@ const EditDialog: React.FC<EditDialogProps> = ({
   setEditedDetails,
   onConfirm,
 }) => {
-  return (
-      <Dialog 
-      style={{direction: 'rtl'}}
 
-      
-      open={open} onClose={onClose} aria-labelledby='edit-dialog-title'>
+  return (
+    <Dialog
+      style={{ direction: 'rtl' }}
+      open={open}
+      onClose={onClose}
+      aria-labelledby='edit-dialog-title'
+    >
       <DialogTitle id='edit-dialog-title'>تعديل المهمة</DialogTitle>
       <DialogContent>
         <TextField

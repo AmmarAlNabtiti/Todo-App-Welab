@@ -11,6 +11,7 @@ import ToastContextProvider from '@/context/toast';
 
 // TodoLayout component managing todo list layout and state
 const TodoLayout = () => {
+
   return (
     <React.Fragment>
       <Container maxWidth='md'>

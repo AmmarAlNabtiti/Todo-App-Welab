@@ -44,7 +44,7 @@ const ToastContextProvider: React.FC<ToastProviderProps> = ({ children }) => {
         <Snackbar
           open={open}
           autoHideDuration={6000}
-          //  onClose={handleClose}
+       
         >
           <Stack sx={{ width: '100%' }} spacing={2}>
             <Alert
@@ -64,6 +64,7 @@ const ToastContextProvider: React.FC<ToastProviderProps> = ({ children }) => {
             </Alert>
           </Stack>
         </Snackbar>
+
       </ToastContext.Provider>
     </>
   );

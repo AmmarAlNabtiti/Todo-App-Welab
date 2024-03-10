@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "c83ef726-d596-4882-a3cd-9912f82cfb72",
+		"name": "Todo App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25454666",
+		"_collection_link": "https://bold-meadow-293533.postman.co/workspace/Team-Workspace~c96a6919-2055-48b2-8b6d-ff2336ffbf12/collection/25454666-c83ef726-d596-4882-a3cd-9912f82cfb72?action=share&source=collection_link&creator=25454666"
+	},
+	"item": [
+		{
+			"name": "Get Todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Todo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"ssss\",\r\n    \"task\": \"asasdasdasd\",\r\n    \"isCompleted\": true,\r\n    \"details\": \"ascccccc\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Todo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/todos/:TodId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos",
+						":TodId"
+					],
+					"variable": [
+						{
+							"key": "TodId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Todo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/todos/:TodId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos",
+						":TodId"
+					],
+					"variable": [
+						{
+							"key": "TodId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

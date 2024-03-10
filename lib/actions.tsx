@@ -36,7 +36,7 @@ export const handleAddNewTask = async (formData: FormData) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: uuidv4(), 
+        id: uuidv4(),
         task: todoTitle,
         isCompleted: false,
       }),

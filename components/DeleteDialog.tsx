@@ -21,7 +21,7 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
 }) => {
   return (
     <Dialog
-      style={{direction: 'rtl'}}
+      style={{ direction: 'rtl' }}
       open={open}
       onClose={onClose}
       aria-labelledby='alert-dialog-title'
