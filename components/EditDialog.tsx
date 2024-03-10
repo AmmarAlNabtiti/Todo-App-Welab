@@ -28,10 +28,9 @@ const EditDialog: React.FC<EditDialogProps> = ({
   setEditedDetails,
   onConfirm,
 }) => {
-
   return (
     <Dialog
-      style={{ direction: 'rtl' }}
+      style={{ direction: 'rtl', fontFamily: 'inherit' }}
       open={open}
       onClose={onClose}
       aria-labelledby='edit-dialog-title'
@@ -48,6 +47,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
           variant='standard'
           value={editedTask}
           onChange={(e) => setEditedTask(e.target.value)}
+          style={{ direction: 'rtl', fontFamily: 'inherit' }}
         />
         <TextField
           margin='dense'
@@ -57,6 +57,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
           fullWidth
           variant='standard'
           value={editedDetails}
+          style={{ direction: 'rtl', fontFamily: 'inherit' }}
           onChange={(e) => setEditedDetails(e.target.value)}
         />
       </DialogContent>

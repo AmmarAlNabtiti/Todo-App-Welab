@@ -14,6 +14,7 @@ const FilterBtns = () => {
     params.set('filter', filter);
     window.history.pushState(null, '', `?${params.toString()}`);
   }
+
   return (
     <ToggleButtonGroup
       exclusive

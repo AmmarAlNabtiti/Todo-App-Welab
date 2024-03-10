@@ -41,11 +41,7 @@ const ToastContextProvider: React.FC<ToastProviderProps> = ({ children }) => {
       <ToastContext.Provider value={{ handleOpenToast, setAlertType }}>
         {children}
 
-        <Snackbar
-          open={open}
-          autoHideDuration={6000}
-       
-        >
+        <Snackbar open={open} autoHideDuration={6000}>
           <Stack sx={{ width: '100%' }} spacing={2}>
             <Alert
               severity={alertType.severity}
@@ -61,10 +57,10 @@ const ToastContextProvider: React.FC<ToastProviderProps> = ({ children }) => {
               {alertType.severity === 'success' && 'تم إضافة المهمة بنجاح!'}
               {alertType.severity === 'warning' && ' تم حذف المهمة بنجاح!'}
               {alertType.severity === 'info' && ' تم تعديل المهمة بنجاح!'}
+              {alertType.severity === 'error' && 'عدد الحروف اقل من حرفين'}
             </Alert>
           </Stack>
         </Snackbar>
-
       </ToastContext.Provider>
     </>
   );

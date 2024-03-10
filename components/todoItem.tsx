@@ -17,6 +17,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const [editedDetails, setEditedDetails] = useState(todo.details);
   const { handleOpenToast, setAlertType } = useContext(ToastContext);
 
+
   const handleConfirmDelete = async () => {
     try {
       await deleteTodo(todo.id);

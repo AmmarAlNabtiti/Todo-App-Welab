@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { getTodos } from '@/lib/actions';
 import AllTodos from './AllTodos';
 
@@ -14,7 +14,9 @@ const TodoList = async () => {
         gap: '20px',
       }}
     >
-      <AllTodos todos={todos} />
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <AllTodos todos={todos} />
+      </Suspense>
     </section>
   );
 };

@@ -33,7 +33,7 @@ export const handleAddNewTask = async (formData: FormData) => {
 
   if (typeof todoTitle === 'string' && todoTitle.length > 1) {
     await fetch(
-      '${process.env.NEXT_PUBLIC_DOMAIN_NAME}:${process.env.NEXT_PUBLIC_PORT}/todos',
+      `${process.env.NEXT_PUBLIC_DOMAIN_NAME}:${process.env.NEXT_PUBLIC_PORT}/todos`,
       {
         method: 'POST',
         headers: {

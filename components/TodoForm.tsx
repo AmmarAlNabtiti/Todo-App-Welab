@@ -16,8 +16,15 @@ const TodoForm = () => {
       action={async (formData) => {
         fromEl.current?.reset();
         await handleAddNewTask(formData);
-        setAlertType({ severity: 'success' });
-        formData.get('title') && handleOpenToast();
+        const title = formData.get('title') as string;
+
+        if (title?.length <= 1) {
+          setAlertType({ severity: 'error' });
+          handleOpenToast();
+        } else {
+          setAlertType({ severity: 'success' });
+          title && handleOpenToast();
+        }
       }}
     >
       <Grid
