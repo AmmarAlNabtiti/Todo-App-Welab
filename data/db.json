@@ -1,3 +1,9 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "id": "337cd311-3213-458c-b58a-8d52a3cad418",
+      "task": "asdsad",
+      "isCompleted": false
+    }
+  ]
 }

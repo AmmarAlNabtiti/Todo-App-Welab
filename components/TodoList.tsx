@@ -14,9 +14,7 @@ const TodoList = async () => {
         gap: '20px',
       }}
     >
-      <Suspense fallback={<h1>Loading...</h1>}>
-        <AllTodos todos={todos} />
-      </Suspense>
+      <AllTodos todos={todos} />
     </section>
   );
 };
