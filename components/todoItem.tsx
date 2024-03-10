@@ -1,62 +1,42 @@
-import React, { useState } from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import CheckIcon from '@mui/icons-material/Check';
-import IconButton from '@mui/material/IconButton';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Alert from '@mui/material/Alert';
-interface TodoProps {
+import React, { useState, useContext } from 'react';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
+import { deleteTodo, editTodo } from '@/lib/actions';
+import DeleteDialog from './DeleteDialog';
+import EditDialog from './EditDialog';
+import ActionIconButton from './ActionIconButton';
+import { ToastContext } from '@/context/toast';
+
+export interface TodoItemProps {
   todo: Itodo;
-  handleCompleteTask: any;
-  handleDeleteTask: any;
-  handleEditTask: any;
 }
 
-// TodoItem component representing a single todo item
-const TodoItem: React.FC<TodoProps> = ({
-  todo,
-  handleCompleteTask,
-  handleDeleteTask,
-  handleEditTask,
-}) => {
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // State for delete confirmation dialog
-  const [openEditDialog, setOpenEditDialog] = useState(false); // State for edit dialog
-  const [editedTask, setEditedTask] = useState(todo.task); // State for edited task
-  const [editedDetails, setEditedDetails] = useState(todo.details); // State for edited details
+const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editedTask, setEditedTask] = useState(todo.task);
+  const [editedDetails, setEditedDetails] = useState(todo.details);
+  const { handleOpenToast, setAlertType } = useContext(ToastContext);
 
-  // Function to open delete confirmation dialog
-  const handleDeleteOpen = () => setOpenDeleteDialog(true);
-
-  // Function to close delete confirmation dialog
-  const handleDeleteClose = () => setOpenDeleteDialog(false);
-
-  // Function to confirm delete action
-  const handleConfirmDelete = () => handleDeleteTask(todo.id);
-
-  // Function to open edit dialog and initialize edited task and details
-  const handleEditOpen = () => {
-    setEditedTask(todo.task);
-    setEditedDetails(todo.details);
-    setOpenEditDialog(true);
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteTodo(todo.id);
+      setOpenDeleteDialog(false);
+      setAlertType({ severity: 'warning' });
+      handleOpenToast();
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
   };
 
-  // Function to close edit dialog
-  const handleEditClose = () => setOpenEditDialog(false);
-
-  // Function to confirm edit action
-  const handleConfirmEdit = () => {
-    handleEditTask(todo.id, editedTask, editedDetails);
+  const handleConfirmEdit = async () => {
+    await editTodo(todo.id, { task: editedTask, details: editedDetails });
     setOpenEditDialog(false);
+    setAlertType({ severity: 'info' });
+    handleOpenToast();
+  };
+
+  const toggleCompletion = async () => {
+    await editTodo(todo.id, { isCompleted: !todo.isCompleted });
   };
 
   return (
@@ -72,7 +52,7 @@ const TodoItem: React.FC<TodoProps> = ({
                 sx={{
                   textAlign: 'right',
                   fontFamily: 'inherit',
-                  textDecoration: todo.isCompleted ? 'line-through' : 'none', // Apply line-through style if the task is completed
+                  textDecoration: todo.isCompleted ? 'line-through' : 'none',
                 }}
                 variant='h5'
               >
@@ -83,7 +63,7 @@ const TodoItem: React.FC<TodoProps> = ({
                   textAlign: 'right',
                   color: '#bbb',
                   fontFamily: 'inherit',
-                  textDecoration: todo.isCompleted ? 'line-through' : 'none', // Apply line-through style if the task is completed
+                  textDecoration: todo.isCompleted ? 'line-through' : 'none',
                 }}
                 variant='h6'
               >
@@ -91,130 +71,46 @@ const TodoItem: React.FC<TodoProps> = ({
               </Typography>
             </Grid>
             <Grid
+              item
+              xs={4}
               display='flex'
               justifyContent='space-around'
               alignItems='center'
-              item
-              xs={4}
             >
-              <IconButton
-                onClick={() => handleCompleteTask(todo.id)}
-                className='icon-btn'
-                style={{
-                  color: todo.isCompleted ? '#fff' : '#8bc34a',
-                  backgroundColor: todo.isCompleted ? '#8bc34a' : '#fff',
-                  border: '3px solid #8bc34a',
-                }}
-                aria-label='check'
-              >
-                <CheckIcon />
-              </IconButton>
-              <IconButton
-                className='icon-btn'
-                onClick={handleEditOpen}
-                style={{
-                  color: '#1769aa',
-                  backgroundColor: '#fff',
-                  border: '3px solid #1769aa',
-                }}
-                aria-label='edit'
-              >
-                <ModeEditOutlinedIcon />
-              </IconButton>
-              <IconButton
-                className='icon-btn'
-                onClick={handleDeleteOpen}
-                style={{
-                  color: '#b23c17',
-                  backgroundColor: '#fff',
-                  border: '3px solid #b23c17',
-                }}
-                aria-label='delete'
-              >
-                <DeleteOutlineOutlinedIcon />
-              </IconButton>
+              <ActionIconButton
+                action='complete'
+                onClick={toggleCompletion}
+                isCompleted={todo.isCompleted}
+              />
+              <ActionIconButton
+                action='edit'
+                onClick={() => setOpenEditDialog(true)}
+              />
+              <ActionIconButton
+                action='delete'
+                onClick={() => setOpenDeleteDialog(true)}
+              />
             </Grid>
           </Grid>
         </CardContent>
       </Card>
 
-      {/* Delete confirmation dialog */}
-      <Dialog
-        style={{ direction: 'rtl' }}
+      {/* Delete MODEL COMP */}
+      <DeleteDialog
         open={openDeleteDialog}
-        onClose={handleDeleteClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle style={{ fontFamily: 'inherit' }} id='alert-dialog-title'>
-          هل أنت متأكد من رغبتك في حذف المهمة؟
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText
-            style={{ fontFamily: 'inherit' }}
-            id='alert-dialog-description'
-          >
-            لا يمكنك التراجع عن الحذف بعد اكتماله.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            style={{ fontFamily: 'inherit' }}
-            onClick={handleConfirmDelete}
-            autoFocus
-          >
-            نعم، قم بالحذف
-          </Button>
-          <Button style={{ fontFamily: 'inherit' }} onClick={handleDeleteClose}>
-            إلغاء
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Edit dialog */}
-      <Dialog
-        style={{ direction: 'rtl' }}
+        onClose={() => setOpenDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+      />
+      {/* EDIT MODEL COMP */}
+      <EditDialog
         open={openEditDialog}
-        onClose={handleEditClose}
-        aria-labelledby='edit-dialog-title'
-      >
-        <DialogTitle id='edit-dialog-title'>تعديل المهمة</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin='dense'
-            id='task'
-            label='تعديل المهمة'
-            type='text'
-            fullWidth
-            variant='standard'
-            value={editedTask}
-            onChange={(e) => setEditedTask(e.target.value)}
-          />
-          <TextField
-            margin='dense'
-            id='details'
-            label='تعديل التفاصيل'
-            type='text'
-            fullWidth
-            variant='standard'
-            value={editedDetails}
-            onChange={(e) => setEditedDetails(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            style={{ fontFamily: 'inherit' }}
-            onClick={handleConfirmEdit}
-            autoFocus
-          >
-            حفظ التعديلات
-          </Button>
-          <Button style={{ fontFamily: 'inherit' }} onClick={handleEditClose}>
-            إلغاء
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onClose={() => setOpenEditDialog(false)}
+        editedTask={editedTask}
+        setEditedTask={setEditedTask}
+        editedDetails={editedDetails}
+        setEditedDetails={setEditedDetails}
+        onConfirm={handleConfirmEdit}
+      />
     </>
   );
 };

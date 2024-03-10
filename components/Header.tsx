@@ -1,20 +1,12 @@
-
 import React from 'react';
 import Logo from './Logo';
 import FilterBtns from './FilterBtns';
 
-interface HeaderProps {
-  setFilterType: React.Dispatch<
-    React.SetStateAction<'all' | 'completed' | 'incomplete'>
-  >;
-  filterType: any;
-}
-
-const Header: React.FC<HeaderProps> = ({ setFilterType, filterType }) => {
+const Header = () => {
   return (
     <>
       <Logo />
-      <FilterBtns filterType={filterType} setFilterType={setFilterType} />
+      <FilterBtns  />
     </>
   );
 };

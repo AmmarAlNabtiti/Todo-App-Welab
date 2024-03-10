@@ -36,3 +36,33 @@ main {
 input {
   font-family: inherit !important;
 }
+
+/* Not found page custom */
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(
+    120deg,
+    rgba(40, 69, 147, 1) 0%,
+    rgba(238, 238, 238, 1) 100%
+  );
+}
+.not-found-page h2 {
+  font-size: 50px;
+  color: #777;
+}
+.not-found-page p {
+}
+.not-found-page a {
+  background-color: blue;
+  padding: 16px 20px;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.not-found-page a:hover {
+  background-color: blue;
+}

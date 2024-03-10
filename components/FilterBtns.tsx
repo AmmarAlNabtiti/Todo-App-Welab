@@ -1,19 +1,19 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-
-interface FilterBtnsProps {
-  setFilterType: React.Dispatch<
-    React.SetStateAction<'all' | 'completed' | 'incomplete'>
-  >;
-  filterType: 'all' | 'completed' | 'incomplete';
-}
+import { useSearchParams } from 'next/navigation';
 
 // FilterBtns component for displaying filter buttons
-const FilterBtns: React.FC<FilterBtnsProps> = ({
-  setFilterType,
-  filterType,
-}) => {
+const FilterBtns = () => {
+  const [filterType, setFilterType] = useState('all');
+  const searchParams = useSearchParams();
+
+  function updateFilters(filter: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('filter', filter);
+    window.history.pushState(null, '', `?${params.toString()}`);
+  }
   return (
     <ToggleButtonGroup
       exclusive
@@ -23,18 +23,26 @@ const FilterBtns: React.FC<FilterBtnsProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        direction: 'ltr', // Set text direction to left-to-right
+        direction: 'ltr',
         marginTop: '30px',
         fontSize: '18px',
       }}
     >
-      <ToggleButton value='incomplete' aria-label='right aligned'>
+      <ToggleButton
+        onClick={() => updateFilters('uncomplete')}
+        value='incomplete'
+      >
         غير المنجز
       </ToggleButton>
-      <ToggleButton value='completed' aria-label='centered'>
+
+      <ToggleButton
+        onClick={() => updateFilters('completed')}
+        value='completed'
+      >
         المنجز
       </ToggleButton>
-      <ToggleButton value='all' aria-label='left aligned'>
+
+      <ToggleButton onClick={() => updateFilters('all')} value='all'>
         الكل
       </ToggleButton>
     </ToggleButtonGroup>
